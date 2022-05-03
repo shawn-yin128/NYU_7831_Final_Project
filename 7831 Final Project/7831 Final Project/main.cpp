@@ -15,6 +15,7 @@
 #include "Database.h"
 #include "MarketData.hpp"
 #include "Models.hpp"
+#include "Util.h"
 
 using namespace std;
 
@@ -497,7 +498,132 @@ int main(void) {
                 
             // G: Manual Testing
             case 'G': {
+                if (OpenDatabase(dbName.c_str(), db) != 0) {
+                    return -1;
+                }
                 
+                // input pair
+                string symbol1, symbol2;
+                cout << "Please enter the symbol for first stock: ";
+                cin >> symbol1;
+                cout << "Please enter the symbol for second stock: ";
+                cin >> symbol2;
+                
+                // find pair
+                bool find = 0;
+                for (const std::pair<string, string> &p : PairVector) {
+                    if (p.first == symbol1 && p.second == symbol2) {
+                        find = 1;
+                    }
+                }
+                if (!find) {
+                    cout << "Pair does not exist." << endl;
+                    return -1;
+                }
+                
+                StockPairPrices spp(std::pair<string, string>{symbol1, symbol2});
+                // put pair data into spp
+                string sql = string("SELECT ")
+                    + "symbol1, symbol2, date, open1, close1, open2, close2 "
+                    + "FROM PairPrices "
+                    + "WHERE date >= '" + BT_START_DATE + "' "
+                    + "AND date <= '" + BT_END_DATE + "' "
+                    + "AND symbol1 = '" + symbol1 + "' "
+                    + "AND symbol2 = '" + symbol2 + "' "
+                    + "ORDER BY symbol1, symbol2, date;";
+                
+                char** result;
+                int row;
+                int col;
+                
+                if (sqlite3_get_table(db, sql.c_str(), &result, &row, &col, NULL) != 0) {
+                    return -1;
+                }
+                
+                for (int i = 0; i < row; i++) {
+                    int base = (i + 1) * col;
+                    string symbol1 = string(result[base + 0]);
+                    string symbol2 = string(result[base + 1]);
+                    string date = string(result[base + 2]);
+                    double open1 = stod(string(result[base + 3]));
+                    double close1 = stod(string(result[base + 4]));
+                    double open2 = stod(string(result[base + 5]));
+                    double close2 = stod(string(result[base + 6]));
+                    
+                    PairPrice pp(open1, close1, open2, close2);
+                    spp.SetDailyPairPrice(date, pp);
+                }
+                
+                // get volatility and put into spp
+                double volatility;
+                sql = string("SELECT volatility FROM StockPairs WHERE symbol1 = '" + symbol1 + "' AND symbol2 = '" + symbol2 + "';");
+                if (sqlite3_get_table(db, sql.c_str(), &result, &row, &col, NULL) != 0) {
+                    return -1;
+                }
+    
+                volatility = stod(string(result[1]));
+                
+                spp.SetVolatility(volatility);
+                double k = 1.0;
+                spp.SetK(k);
+                
+                double close1d1 = 0.0;
+                double close2d1 = 0.0;
+                double open1d2 = 0.0;
+                double open2d2 = 0.0;
+                double close1d2 = 0.0;
+                double close2d2 = 0.0;
+                
+                string start_date;
+                
+                map<string, PairPrice> &dailyPairPrices = spp.GetDailyPrices();
+                vector<string> dates;
+                for (const std::pair<string, PairPrice> &dp : dailyPairPrices) {
+                    dates.push_back(dp.first);
+                }
+                sort(dates.begin(), dates.end());
+                
+                for (vector<string>::iterator itr = dates.begin(); itr != dates.end(); itr++) {
+                    PairPrice& pp = dailyPairPrices[*itr];
+                    if (itr == dates.begin()) {
+                        start_date = *itr;
+                        close1d1 = pp.dClose1;
+                        close2d1 = pp.dClose2;
+                        continue;
+                    }
+                    open1d2 = pp.dOpen1;
+                    open2d2 = pp.dOpen2;
+                    close1d2 = pp.dClose1;
+                    close2d2 = pp.dClose2;
+                    
+                    int N1, N2;
+                    if (abs(close1d1/close2d1 - open1d2/open2d2) > spp.GetVolatility() * spp.GetK()) {
+                        // short
+                        N1 = -10000;
+                        N2 = (int)(-N1 * open1d2/open2d2);
+                    } else {
+                        // long
+                        N1 = 10000;
+                        N2 = (int)(-N1 * open1d2/open2d2);
+                    }
+                    
+                    double PL = N1 * (close1d2 - open1d2) + N2 * (close2d2 - open2d2);
+                    
+                    spp.UpdateProfitLoss(*itr, PL);
+                    
+                    // move to next day
+                    close1d1 = close1d2;
+                    close2d1 = close2d2;
+                }
+                
+                for (map<string,PairPrice>::iterator itr = dailyPairPrices.begin(); itr != dailyPairPrices.end(); itr++) {
+                    cout << "On " << itr->first << " the P/L is " << itr->second.dProfitLoss << "." << endl;
+                }
+                
+                CloseDatabase(db);
+                 
+                cout << "Maual Test for " << symbol1 << ", " << symbol2 << " pair completed." << endl << endl;
+                break;
             }
             
             // H: Drop All tables
