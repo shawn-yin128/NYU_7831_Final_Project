@@ -178,18 +178,6 @@ int main(void) {
                     }
                 }
                 
-                CloseDatabase(db);
-                
-                cout << endl << "Stock Pair Inserted." << endl << endl;
-                break;
-            }
-            
-            // C: Create PairPrices Table
-            case 'C': {
-                if (OpenDatabase(dbName.c_str(), db) != 0) {
-                    return -1;
-                }
-                
                 for (const pair<string, string> &p : PairVector) {
                     string symbol1 = p.first;
                     string symbol2 = p.second;
@@ -231,7 +219,8 @@ int main(void) {
                                 return -1;
                             }
                         }
-
+                        
+                        cout << "Insert " << symbol1 << " into PairOnePrices." << endl;
                         // Add the stock into the set
                         PairOneStocks.insert(symbol1);
                     }
@@ -275,9 +264,22 @@ int main(void) {
                             }
                         }
 
+                        cout << "Insert " << symbol2 << " into PairTwoPrices." << endl;
                         // Add the stock into the set
                         PairTwoStocks.insert(symbol2);
                     }
+                }
+                
+                CloseDatabase(db);
+                
+                cout << endl << "Stock Pair Inserted." << endl << endl;
+                break;
+            }
+            
+            // C: Create PairPrices Table
+            case 'C': {
+                if (OpenDatabase(dbName.c_str(), db) != 0) {
+                    return -1;
                 }
                 
                 // insert into pairprice table
