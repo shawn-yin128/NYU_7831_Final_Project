@@ -330,10 +330,6 @@ int main(void) {
                     return -1;
                 }
                 
-                double k;
-                cout << "Please enter the value of k: ";
-                cin >> k;
-                
                 // get all pair data and store into spp
                 for (const pair<string, string> &p : PairVector) {
                     StockPairPrices spp(p);
@@ -384,7 +380,7 @@ int main(void) {
                     volatility = stod(string(result[1]));
                     
                     spp.SetVolatility(volatility);
-                    spp.SetK(k);
+                    spp.SetK(1.0);
                     
                     BTStockPairPricesVector.push_back(spp);
                  }
@@ -565,18 +561,33 @@ int main(void) {
     
                 volatility = stod(string(result[1]));
                 
-                spp.SetVolatility(volatility);
-                double k = 1.0;
-                spp.SetK(k);
-                
                 double close1d1 = 0.0;
                 double close2d1 = 0.0;
                 double open1d2 = 0.0;
                 double open2d2 = 0.0;
                 double close1d2 = 0.0;
                 double close2d2 = 0.0;
-                
+                double k = 0.0;
                 string start_date;
+                
+                cout << "Please enter k: " << endl;
+                cin >> k;
+                //set prices
+                cout << "Enter 1st stock close price on day1：";
+                cin >> close1d1;
+                cout<< "Enter 2nd stock close price on day1：";
+                cin >> close2d1;
+                cout<< "Enter 1st stock close price on day2：";
+                cin >> close1d2;
+                cout<< "Enter 2nd stock close price on day2：";
+                cin >> close2d2;
+                cout << "enter 1st stock open price on day2：";
+                cin >> open1d2;
+                cout << "enter 2nd stock open price on day2：";
+                cin >> open2d2;
+                
+                spp.SetVolatility(volatility);
+                spp.SetK(k);
                 
                 map<string, PairPrice> &dailyPairPrices = spp.GetDailyPrices();
                 vector<string> dates;
@@ -585,42 +596,26 @@ int main(void) {
                 }
                 sort(dates.begin(), dates.end());
                 
-                for (vector<string>::iterator itr = dates.begin(); itr != dates.end(); itr++) {
-                    PairPrice& pp = dailyPairPrices[*itr];
-                    if (itr == dates.begin()) {
-                        start_date = *itr;
-                        close1d1 = pp.dClose1;
-                        close2d1 = pp.dClose2;
-                        continue;
-                    }
-                    open1d2 = pp.dOpen1;
-                    open2d2 = pp.dOpen2;
-                    close1d2 = pp.dClose1;
-                    close2d2 = pp.dClose2;
-                    
-                    int N1, N2;
-                    if (abs(close1d1/close2d1 - open1d2/open2d2) > spp.GetVolatility() * spp.GetK()) {
-                        // short
-                        N1 = -10000;
-                        N2 = (int)(-N1 * open1d2/open2d2);
-                    } else {
-                        // long
-                        N1 = 10000;
-                        N2 = (int)(-N1 * open1d2/open2d2);
-                    }
-                    
-                    double PL = N1 * (close1d2 - open1d2) + N2 * (close2d2 - open2d2);
-                    
-                    spp.UpdateProfitLoss(*itr, PL);
-                    
-                    // move to next day
-                    close1d1 = close1d2;
-                    close2d1 = close2d2;
-                }
+                int N1, N2;
                 
-                for (map<string,PairPrice>::iterator itr = dailyPairPrices.begin(); itr != dailyPairPrices.end(); itr++) {
-                    cout << "On " << itr->first << " the P/L is " << itr->second.dProfitLoss << "." << endl;
+                if (abs(close1d1 / close2d1 - open1d2 / open2d2) > k * volatility) {
+                    N1 = -10000;
+                    N2 = 10000 * (open1d2 / open2d2);
+                    cout << "The trading strategy is:" << endl;
+                    cout << "Short the " << symbol1 << " for 10,000 shares" << endl;
+                    cout << "Long the " << symbol2 << " for " << N2 << " shares" << endl;
+                } else {
+                    N1 = 10000;
+                    N2 = -10000 * (open1d2 / open2d2);
+                    cout << "The trading strategy is:" << endl;
+                    cout << "Long the " << symbol1 << " for 10,000 shares" << endl;
+                    cout << "Short the " << symbol2 << " for " << abs(N2) << " shares" << endl;
                 }
+
+                double PnL;
+                
+                PnL= N1 * (close1d2 - open1d2) + N2 * (close2d2 - open2d2);
+                cout << "The daily PnL of the given stock pair is " << PnL << endl;
                 
                 CloseDatabase(db);
                  
