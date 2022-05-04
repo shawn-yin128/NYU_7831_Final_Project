@@ -1,0 +1,61 @@
+{
+  "_buildCommand2" : {
+    "command" : "prepareForIndexing",
+    "enableIndexBuildArena" : true,
+    "targets" : null
+  },
+  "buildCommand" : "build",
+  "configuredTargets" : [
+    {
+      "guid" : "644a8edbe144c297795167c3054277d1a731bcf8940217de9abdabeaccbc8763"
+    }
+  ],
+  "containerPath" : "/Volumes/Study/SchoolWork/NYU - Master/22Spring/7831 big data/code/team project/7831 Final Project/7831 Final Project.xcodeproj",
+  "continueBuildingAfterErrors" : true,
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "indexbuild",
+    "activeArchitecture" : "arm64e",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "macosx",
+      "sdk" : "macosx12.3",
+      "sdkVariant" : "macos",
+      "supportedArchitectures" : [
+        "arm64e",
+        "arm64",
+        "x86_64"
+      ],
+      "targetArchitecture" : "arm64e"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Volumes/Study/SchoolWork/NYU - Master/22Spring/7831 big data/code/team project/7831 Final Project/DerivedData/7831 Final Project/Index/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Volumes/Study/SchoolWork/NYU - Master/22Spring/7831 big data/code/team project/7831 Final Project/DerivedData/7831 Final Project/Index/Build/Products",
+      "derivedDataPath" : "/Volumes/Study/SchoolWork/NYU - Master/22Spring/7831 big data/code/team project/7831 Final Project/DerivedData",
+      "indexDataStoreFolderPath" : "/Volumes/Study/SchoolWork/NYU - Master/22Spring/7831 big data/code/team project/7831 Final Project/DerivedData/7831 Final Project/Index/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Volumes/Study/SchoolWork/NYU - Master/22Spring/7831 big data/code/team project/7831 Final Project/DerivedData/7831 Final Project/Index/PrecompiledHeaders",
+      "pchPath" : "/Volumes/Study/SchoolWork/NYU - Master/22Spring/7831 big data/code/team project/7831 Final Project/DerivedData/7831 Final Project/Index/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "synthesized" : {
+        "table" : {
+          "ENABLE_PREVIEWS" : "NO",
+          "INDEX_ARENA_INFO_REGULAR_BUILD_PRODUCTS_DIR" : "/Volumes/Study/SchoolWork/NYU - Master/22Spring/7831 big data/code/team project/7831 Final Project/DerivedData/7831 Final Project/Build/Products",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "qos" : "default",
+  "schemeCommand" : "launch",
+  "schemeCommand2" : "launch",
+  "shouldCollectMetrics" : false,
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}
