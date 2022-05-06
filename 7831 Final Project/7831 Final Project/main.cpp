@@ -138,7 +138,7 @@ int main(void) {
                 break;
             }
 
-                    // B: Retrieve and Populate Historical Data for Each Stock
+            // B: Retrieve and Populate Historical Data for Each Stock
             case 'B':
             case 'b': {
                 // read pairs
@@ -287,7 +287,7 @@ int main(void) {
                 break;
             }
 
-                    // C: Create PairPrices Table
+            // C: Create PairPrices Table
             case 'C':
             case 'c': {
                 if (OpenDatabase(dbName.c_str(), db) != 0) {
@@ -328,7 +328,7 @@ int main(void) {
 
             }
 
-                    // D: Calculate Volatility
+            // D: Calculate Volatility
             case 'D':
             case 'd': {
                 if (OpenDatabase(dbName.c_str(), db) != 0) {
@@ -345,13 +345,42 @@ int main(void) {
                     return -1;
                 }
 
+                // get volatility, convert variance to std
+                char** result;
+                int row;
+                int col;
+                vector<double> volatility;
+
+                sql = string("SELECT volatility FROM StockPairs;");
+
+                if (sqlite3_get_table(db, sql.c_str(), &result, &row, &col, NULL) != 0) {
+                    return -1;
+                }
+
+                for (int i = 0; i < row; i++)
+                {
+                    volatility.push_back(sqrt(stod(string(result[i+1]))));
+                }
+
+                // read back to the database
+                for (int i = 0; i < row; i++)
+                {
+                    string sql = string("UPDATE StockPairs SET volatility = ")
+                        + to_string(volatility[i])
+                        + " WHERE ROWID = '" + to_string(i + 1) + "';";
+
+                    if (ExecuteSQL(db, sql.c_str()) != 0) {
+                        return -1;
+                    }
+                }
+
                 CloseDatabase(db);
-            
+
                 cout << "Volatility Calculated." << endl << endl;
                 break;
             }
 
-                    // E: Back Testing
+            // E: Back Testing
             case 'E':
             case 'e': {
                 if (OpenDatabase(dbName.c_str(), db) != 0) {
@@ -498,7 +527,7 @@ int main(void) {
                 break;
             }
 
-                    // F: Calculate Profit and Loss for Each Pair
+            // F: Calculate Profit and Loss for Each Pair
             case 'F':
             case 'f': {
                 if (OpenDatabase(dbName.c_str(), db) != 0) {
@@ -550,7 +579,7 @@ int main(void) {
                 break;
             }
 
-                    // G: Manual Testing
+            // G: Manual Testing
             case 'G':
             case 'g': {
                 if (OpenDatabase(dbName.c_str(), db) != 0) {
@@ -694,7 +723,7 @@ int main(void) {
                 break;
             }
 
-                    // H: Drop All tables
+            // H: Drop All tables
             case 'H':
             case 'h': {
                 if (OpenDatabase(dbName.c_str(), db) != 0) {
@@ -725,7 +754,7 @@ int main(void) {
                 break;
             }
 
-                    // X: Exit
+            // X: Exit
             case 'X':
             case 'x': {
                 cout << "Program shut down." << endl;

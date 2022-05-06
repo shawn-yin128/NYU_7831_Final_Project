@@ -6,7 +6,7 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
-		<key>38542C71-FB04-4650-879E-2E7EFC4C5763</key>
+		<key>B827EC75-E179-41A9-A9E4-5BF3F95A61E8</key>
 		<dict>
 			<key>className</key>
 			<string>DBGConsoleLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
 			<key>fileName</key>
-			<string>38542C71-FB04-4650-879E-2E7EFC4C5763.xcactivitylog</string>
+			<string>B827EC75-E179-41A9-A9E4-5BF3F95A61E8.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -32,15 +32,15 @@
 			<key>signature</key>
 			<string>Run 7831 Final Project</string>
 			<key>timeStartedRecording</key>
-			<real>673458726.52873504</real>
+			<real>673569543.72344995</real>
 			<key>timeStoppedRecording</key>
-			<real>673458779.33585</real>
+			<real>673569546.656533</real>
 			<key>title</key>
 			<string>Run 7831 Final Project</string>
 			<key>uniqueIdentifier</key>
-			<string>38542C71-FB04-4650-879E-2E7EFC4C5763</string>
+			<string>B827EC75-E179-41A9-A9E4-5BF3F95A61E8</string>
 		</dict>
-		<key>AC510C95-2209-48A5-8394-93386F962773</key>
+		<key>C53555F3-E562-4C9E-A010-230DAC5CDE2D</key>
 		<dict>
 			<key>className</key>
 			<string>DBGConsoleLog</string>
@@ -49,7 +49,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
 			<key>fileName</key>
-			<string>AC510C95-2209-48A5-8394-93386F962773.xcactivitylog</string>
+			<string>C53555F3-E562-4C9E-A010-230DAC5CDE2D.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -66,15 +66,15 @@
 			<key>signature</key>
 			<string>Run 7831 Final Project</string>
 			<key>timeStartedRecording</key>
-			<real>673494493.69056499</real>
+			<real>673569283.31088805</real>
 			<key>timeStoppedRecording</key>
-			<real>673495953.39877295</real>
+			<real>673569410.06767297</real>
 			<key>title</key>
 			<string>Run 7831 Final Project</string>
 			<key>uniqueIdentifier</key>
-			<string>AC510C95-2209-48A5-8394-93386F962773</string>
+			<string>C53555F3-E562-4C9E-A010-230DAC5CDE2D</string>
 		</dict>
-		<key>D4904BCF-67AE-47BF-AB28-22C729644299</key>
+		<key>CBC5649A-F03E-4E7B-9022-3D3B90475D5D</key>
 		<dict>
 			<key>className</key>
 			<string>DBGConsoleLog</string>
@@ -83,7 +83,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
 			<key>fileName</key>
-			<string>D4904BCF-67AE-47BF-AB28-22C729644299.xcactivitylog</string>
+			<string>CBC5649A-F03E-4E7B-9022-3D3B90475D5D.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -100,13 +100,47 @@
 			<key>signature</key>
 			<string>Run 7831 Final Project</string>
 			<key>timeStartedRecording</key>
-			<real>673495953.97018301</real>
+			<real>673568772.98022497</real>
 			<key>timeStoppedRecording</key>
-			<real>673496122.83358896</real>
+			<real>673568806.46452403</real>
 			<key>title</key>
 			<string>Run 7831 Final Project</string>
 			<key>uniqueIdentifier</key>
-			<string>D4904BCF-67AE-47BF-AB28-22C729644299</string>
+			<string>CBC5649A-F03E-4E7B-9022-3D3B90475D5D</string>
+		</dict>
+		<key>ED0B5C6A-C689-4FFD-B96F-1BEBF1750BFF</key>
+		<dict>
+			<key>className</key>
+			<string>DBGConsoleLog</string>
+			<key>documentTypeString</key>
+			<string>com.apple.dt.IDE.DebuggerLogContentType</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.DebugLog</string>
+			<key>fileName</key>
+			<string>ED0B5C6A-C689-4FFD-B96F-1BEBF1750BFF.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>7831 Final Project project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>7831 Final Project</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Run 7831 Final Project</string>
+			<key>timeStartedRecording</key>
+			<real>673569254.51367998</real>
+			<key>timeStoppedRecording</key>
+			<real>673569280.48535597</real>
+			<key>title</key>
+			<string>Run 7831 Final Project</string>
+			<key>uniqueIdentifier</key>
+			<string>ED0B5C6A-C689-4FFD-B96F-1BEBF1750BFF</string>
 		</dict>
 	</dict>
 </dict>
