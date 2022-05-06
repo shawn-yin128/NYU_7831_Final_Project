@@ -308,7 +308,10 @@ int main(void) {
 
                 // insert into pairprice table
                 string sql = "INSERT INTO PairPrices "
-                    "SELECT StockPairs.symbol1 AS symbol1, StockPairs.symbol2 AS symbol2, PairOnePrices.date AS date, PairOnePrices.open AS open1, PairOnePrices.adjusted_close AS close1, PairTwoPrices.open AS open2, PairTwoPrices.adjusted_close AS close2, 0 AS profit_loss "
+                    "SELECT StockPairs.symbol1 AS symbol1, StockPairs.symbol2 AS symbol2, PairOnePrices.date AS date, 
+                                                 PairOnePrices.open AS open1, PairOnePrices.adjusted_close AS close1, 
+                                                 PairTwoPrices.open AS open2, PairTwoPrices.adjusted_close AS close2, 
+                                                 0 AS profit_loss "
                     "FROM StockPairs, PairOnePrices, PairTwoPrices "
                     "WHERE (((StockPairs.symbol1 = PairOnePrices.symbol) "
                     "AND (StockPairs.symbol2 = PairTwoPrices.symbol)) "
