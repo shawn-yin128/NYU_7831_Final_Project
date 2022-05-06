@@ -105,8 +105,10 @@ int main(void) {
                     + "date CHAR(20) NOT NULL,"
                     + "open1 REAL NOT NULL,"
                     + "close1 REAL NOT NULL,"
+                    + "adjusted_close1 REAL NOT NULL,"
                     + "open2 REAL NOT NULL,"
                     + "close2 REAL NOT NULL,"
+                    + "adjusted_close2 REAL NOT NULL,"
                     + "profit_loss REAL NOT NULL,"
                     + "PRIMARY KEY(symbol1, symbol2, date),"
                     + "FOREIGN KEY(symbol1, date) REFERENCES PairOnePrices(symbol, date) ON DELETE CASCADE ON UPDATE CASCADE,"
@@ -308,7 +310,7 @@ int main(void) {
 
                 // insert into pairprice table
                 string sql = "INSERT INTO PairPrices "
-                    "SELECT StockPairs.symbol1 AS symbol1, StockPairs.symbol2 AS symbol2, PairOnePrices.date AS date, PairOnePrices.open AS open1, PairOnePrices.adjusted_close AS close1, PairTwoPrices.open AS open2, PairTwoPrices.adjusted_close AS close2, 0 AS profit_loss "
+                    "SELECT StockPairs.symbol1 AS symbol1, StockPairs.symbol2 AS symbol2, PairOnePrices.date AS date, PairOnePrices.open AS open1, PairOnePrices.close AS close1, PairOnePrices.adjusted_close AS adjusted_close1, PairTwoPrices.open AS open2, PairTwoPrices.close AS close2, PairTwoPrices.adjusted_close AS adjusted_close2, 0 AS profit_loss "
                     "FROM StockPairs, PairOnePrices, PairTwoPrices "
                     "WHERE (((StockPairs.symbol1 = PairOnePrices.symbol) "
                     "AND (StockPairs.symbol2 = PairTwoPrices.symbol)) "
@@ -334,7 +336,7 @@ int main(void) {
                 }
 
                 string sql = string("UPDATE StockPairs SET volatility = ")
-                    + "(SELECT(AVG((close1/close2)*(close1/close2))-AVG(close1/close2)*AVG(close1/close2)) AS variance "
+                    + "(SELECT(AVG((adjusted_close1/adjusted_close2)*(adjusted_close1/adjusted_close2))-AVG(adjusted_close1/adjusted_close2)*AVG(adjusted_close1/adjusted_close2)) AS variance "
                     + "FROM PairPrices "
                     + "WHERE StockPairs.symbol1 = PairPrices.symbol1 AND StockPairs.symbol2 = PairPrices.symbol2 AND PairPrices.date <= \'"
                     + END_DATE + "\');";
@@ -618,7 +620,7 @@ int main(void) {
                 
                 if (stoi(result[1]) == 0) {
                     string sql = string("UPDATE StockPairs SET volatility = ")
-                        + "(SELECT(AVG((close1/close2)*(close1/close2))-AVG(close1/close2)*AVG(close1/close2)) AS variance "
+                        + "(SELECT(AVG((adjusted_close1/adjusted_close2)*(adjusted_close1/adjusted_close2))-AVG(adjusted_close1/adjusted_close2)*AVG(adjusted_close1/adjusted_close2)) AS variance "
                         + "FROM PairPrices "
                         + "WHERE StockPairs.symbol1 = PairPrices.symbol1 AND StockPairs.symbol2 = PairPrices.symbol2 AND PairPrices.date <= \'"
                         + END_DATE + "\');";
